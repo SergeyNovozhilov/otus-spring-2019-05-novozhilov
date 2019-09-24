@@ -16,7 +16,7 @@
 </head>
 <body>
 <h1>Books:</h1>
-
+<div><a th:href="@{/create}">Create new book</a></div>
 <table class="books">
     <thead>
     <tr>
@@ -34,6 +34,9 @@
         <td th:text="${book.comments}">No comments</td>
         <td>
             <a th:href="@{/edit(id=${book.id})}" href="edit.html">Edit</a>
+        </td>
+        <td>
+            <a th:href="@{/delete/{id}(id=${book.id})}">Delete</a>
         </td>
     </tr>
     </tbody>

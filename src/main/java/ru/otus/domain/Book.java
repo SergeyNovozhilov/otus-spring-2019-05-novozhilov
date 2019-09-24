@@ -72,6 +72,10 @@ public class Book extends Base{
 		this.comments.add(comment);
 	}
 
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
 	public UUID getId() {
 		return id;
 	}

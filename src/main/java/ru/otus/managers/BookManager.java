@@ -16,6 +16,7 @@ import ru.otus.exceptions.NotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BookManager implements Manager<Book> {
@@ -29,9 +30,23 @@ public class BookManager implements Manager<Book> {
         this.bookDao = bookDao;
     }
 
+    public Book get(UUID id) throws NotFoundException {
+        Book book = bookDao.getById(id);
+        if (book == null) {
+            throw new NotFoundException("Book not found");
+        }
+
+        return book;
+    }
+
     @Override
     public Book create(String title) {
         Book book = new Book(title);
+        return bookDao.save(book);
+    }
+
+    public Book create() {
+        Book book = new Book();
         return bookDao.save(book);
     }
 

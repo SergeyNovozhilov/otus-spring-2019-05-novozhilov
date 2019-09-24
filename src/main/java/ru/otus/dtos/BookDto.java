@@ -1,5 +1,6 @@
 package ru.otus.dtos;
 
+import org.apache.commons.lang3.StringUtils;
 import ru.otus.domain.Author;
 import ru.otus.domain.Book;
 import ru.otus.domain.Comment;
@@ -15,12 +16,28 @@ public class BookDto {
     private String genre;
     private List<String> comments;
 
-    public BookDto(Book book) {
-        this.id = book.getId();
-        this.title = book.getTitle();
-        this.genre = book.getGenre().getName();
-        this.authors = book.getAuthors().stream().map(Author::getName).collect(Collectors.toList());
-        this.comments = book.getComments().stream().map(Comment::getComment).collect(Collectors.toList());
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthors(List<String> authors) {
+        this.authors = authors;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setComments(List<String> comments) {
+        this.comments = comments;
+    }
+
+    public String getId() {
+        return id.toString();
     }
 
     public String getTitle() {
@@ -36,6 +53,9 @@ public class BookDto {
     }
 
     public String getComments() {
+        if (comments == null) {
+            return "";
+        }
         return String.join(", ", comments);
     }
 }
