@@ -33,10 +33,10 @@ public class Converter {
         dto.setTitle(book.getTitle());
         dto.setGenre(book.getGenre().getName());
         if (book.getAuthors() != null && !book.getAuthors().contains(null)) {
-            dto.setAuthors(book.getAuthors().stream().map(Author::getName).collect(Collectors.toList()));
+            dto.setAuthors(String.join(",", book.getAuthors().stream().map(Author::getName).collect(Collectors.toList())));
         }
         if (book.getComments() != null && !book.getComments().contains(null)) {
-            dto.setComments(book.getComments().stream().map(Comment::getComment).collect(Collectors.toList()));
+            dto.setComments(String.join(",", book.getComments().stream().map(Comment::getComment).collect(Collectors.toList())));
         }
 
         return dto;
@@ -45,7 +45,7 @@ public class Converter {
     public Book toBook (BookDto dto) {
         Book book = new Book();
         if (dto.getId() != null) {
-            book.setId(UUID.fromString(dto.getId()));
+            book.setId(UUID.fromString(dto.getId().toString()));
         }
         book.setTitle(dto.getTitle());
         book.setAuthors(getAuthors(dto.getAuthors()));

@@ -19,9 +19,8 @@ public class App {
 
         ApplicationContext ac = SpringApplication.run(App.class, args);
         BookManager bm = ac.getBean(BookManager.class);
-
-        Book book = bm.create("Book 1");
         List<String> authors = Arrays.asList("Author 1");
+        Book book = bm.create("Book 1");
         bm.addAuthors(book, authors);
         bm.addGenre(book, "Genre 1");
         bm.update(book);

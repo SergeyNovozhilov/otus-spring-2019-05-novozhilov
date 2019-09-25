@@ -46,7 +46,7 @@ public class BookManager implements Manager<Book> {
     }
 
     public Book create() {
-        Book book = new Book();
+        Book book = new Book("Author");
         return bookDao.save(book);
     }
 

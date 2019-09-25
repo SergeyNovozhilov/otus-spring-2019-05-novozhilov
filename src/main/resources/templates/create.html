@@ -5,20 +5,19 @@
     <title>Create New Book</title>
 </head>
 <body>
-    <form action="#" th:action="@{/save/{id}(id=${book.id})}" th:object="${book}"
+    <form  th:action="@{/save/{id}(id=${book.id})}" th:object="${book}"
           method="post">
         <h1>Create New Book</h1>
         <table border="0" cellpadding="10">
             <tr>
                 <td>Book title:</td>
-                <td>
-                    <input type="text" th:field="*{title}" />
-                    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
-                </td>
+                <td><input type="text" th:field="*{title}" /></td>
+                <td th:if="${#fields.hasErrors('title')}" th:errors="*{title}"> Title error</td>
             </tr>
             <tr>
                 <td>Authors (comma separated):</td>
                 <td><input type="text" th:field="*{authors}" /></td>
+                <td th:if="${#fields.hasErrors('authors')}" th:errors="*{authors}"> Authors error</td>
             </tr>
             <tr>
                 <td>Genre:</td>

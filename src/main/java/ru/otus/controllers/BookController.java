@@ -3,6 +3,7 @@ package ru.otus.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.Util.Converter;
 import ru.otus.domain.Book;
@@ -11,6 +12,7 @@ import ru.otus.exceptions.DBException;
 import ru.otus.exceptions.NotFoundException;
 import ru.otus.managers.BookManager;
 
+import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -49,24 +51,28 @@ public class BookController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(Model model) {
-        Book book = bookManager.create();
+        BookDto book = new BookDto();
         model.addAttribute("book", book);
 
         return "create";
     }
 
-    @RequestMapping(value = "/save/{id}", method = RequestMethod.POST)
-    public String save(@PathVariable("id") UUID id, @ModelAttribute("book") BookDto book, Model model) {
-//        if (id == null) {
-//            Book bookObj = bookManager.create(book.getTitle());
-//            bookManager.addGenre(bookObj, book.getGenre());
-//            List<String> authors = Arrays.asList(book.getAuthors().split(","));
-//            bookManager.addAuthors(bookObj, authors);
-//            bookManager.addComment(bookObj, book.getComments());
-//        } else {
-//            bookManager.update(converter.toBook(book));
-//        }
-        bookManager.update(converter.toBook(book));
+    @RequestMapping(value = {"/save", "/save/{id}"}, method = RequestMethod.POST)
+    public String save(@PathVariable Optional<UUID>  id, @Valid @ModelAttribute("book") BookDto book, BindingResult bindingResult, Model model) {
+        if (id == null) {
+            if (bindingResult.hasErrors()) {
+                return "create";
+            }
+            Book bookObj = bookManager.create(book.getTitle());
+            bookManager.addGenre(bookObj, book.getGenre());
+            List<String> authors = Arrays.asList(book.getAuthors().split(","));
+            bookManager.addAuthors(bookObj, authors);
+        } else {
+            if (bindingResult.hasErrors()) {
+                return "edit";
+            }
+            bookManager.update(converter.toBook(book));
+        }
 
         model.addAttribute("books", getAllBooks());
 
