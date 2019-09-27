@@ -1,4 +1,4 @@
-package ru.otus.IntegrationTests;
+package ru.otus.integration;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;

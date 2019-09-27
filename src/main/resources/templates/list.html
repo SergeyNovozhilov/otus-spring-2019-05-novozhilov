@@ -34,10 +34,14 @@
         <td th:text="${book.genre}">Genre</td>
         <td th:text="${book.comments}">No comments</td>
         <td>
-            <a th:href="@{/edit(id=${book.id})}" href="edit.html">Edit</a>
+            <form th:action="@{/edit(id=${book.id})}" th:method="post">
+                <button type="submit" th:name="submit">Edit</button>
+            </form>
         </td>
         <td>
-            <a th:href="@{/delete/{id}(id=${book.id})}">Delete</a>
+            <form th:action="@{/delete/{id}(id=${book.id})}" th:method="post">
+                <button type="submit" th:name="submit">Delete</button>
+            </form>
         </td>
     </tr>
     </tbody>
