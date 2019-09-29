@@ -31,7 +31,9 @@ public class Converter {
         BookDto dto = new BookDto();
         dto.setId(book.getId());
         dto.setTitle(book.getTitle());
-        dto.setGenre(book.getGenre().getName());
+        if (book.getGenre() != null) {
+            dto.setGenre(book.getGenre().getName());
+        }
         if (book.getAuthors() != null && !book.getAuthors().contains(null)) {
             dto.setAuthors(String.join(",", book.getAuthors().stream().map(Author::getName).collect(Collectors.toList())));
         }
