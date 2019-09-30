@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Online library</title>
+</head>
+<body>
+<h1>Welcome to online library</h1>
+
+<table class="books">
+    <thead>
+    <!--tr>
+        <th>Title</th>
+        <th>Authors</th>
+        <th>Genre</th>
+        <th>Comments</th>
+    </tr-->
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <a th:href="@{/create}">Create new book</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a th:href="@{/books}">List all books</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
