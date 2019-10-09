@@ -16,12 +16,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class BookHelper {
+public class BookService {
     private BookManager bookManager;
     private Converter converter;
 
     @Autowired
-    public BookHelper(BookManager bookManager, Converter converter) {
+    public BookService(BookManager bookManager, Converter converter) {
         this.bookManager = bookManager;
         this.converter = converter;
     }

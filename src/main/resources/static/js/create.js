@@ -17,7 +17,7 @@ function create_submit() {
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: "/create",
+            url: "/books",
             data: JSON.stringify(formData),
             dataType: 'text',
             success: function () {

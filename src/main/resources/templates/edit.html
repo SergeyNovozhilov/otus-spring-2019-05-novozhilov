@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<form id="edit-form" th:action="@{/save/{id}(id=${book.id})}" th:object="${book}" th:method="post">
+<form id="edit-form" th:action="@{/books/{id}(id=${book.id})}" th:object="${book}" th:method="put">
     <h1>Edit book:</h1>
 
     <div class="row">
