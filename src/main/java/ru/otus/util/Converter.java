@@ -1,4 +1,4 @@
-package ru.otus.Util;
+package ru.otus.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

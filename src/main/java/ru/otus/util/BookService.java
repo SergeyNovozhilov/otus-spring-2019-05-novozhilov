@@ -1,26 +1,24 @@
-package ru.otus.Util;
+package ru.otus.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import ru.otus.domain.Book;
 import ru.otus.dtos.BookDto;
 import ru.otus.exceptions.DBException;
 import ru.otus.exceptions.NotFoundException;
 import ru.otus.managers.BookManager;
 
-import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class BookHelper {
+public class BookService {
     private BookManager bookManager;
     private Converter converter;
 
     @Autowired
-    public BookHelper(BookManager bookManager, Converter converter) {
+    public BookService(BookManager bookManager, Converter converter) {
         this.bookManager = bookManager;
         this.converter = converter;
     }

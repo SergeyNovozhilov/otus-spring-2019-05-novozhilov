@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.otus.Util.BookHelper;
+import ru.otus.util.BookService;
 import ru.otus.dtos.BookDto;
 import ru.otus.exceptions.DBException;
 import ru.otus.exceptions.NotFoundException;
@@ -16,11 +16,11 @@ import java.util.UUID;
 
 @Controller
 public class BookController {
-    private BookHelper bookHelper;
+    private BookService bookService;
 
     @Autowired
-    public BookController(BookHelper bookHelper) {
-        this.bookHelper = bookHelper;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     @GetMapping({"/", "/home"})
@@ -30,7 +30,7 @@ public class BookController {
 
     @GetMapping(value = "/books")
     public String listPage(Model model) {
-        model.addAttribute("books", bookHelper.getAllBooks());
+        model.addAttribute("books", bookService.getAllBooks());
 
         return "list";
     }
@@ -38,7 +38,7 @@ public class BookController {
     @PostMapping(value = "/edit")
     public String editPage(@RequestParam("id") UUID id, Model model) {
         try {
-            model.addAttribute("book", bookHelper.getBook(id));
+            model.addAttribute("book", bookService.getBook(id));
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
@@ -55,7 +55,7 @@ public class BookController {
 
     @PostMapping(value = {"/save", "/save/{id}"})
     public String save(@PathVariable Optional<UUID>  id, @Valid @ModelAttribute("book") BookDto book, BindingResult bindingResult) {
-        String saveResult = bookHelper.save(id, book, bindingResult);
+        String saveResult = bookService.save(id, book, bindingResult);
 
         return saveResult == null ? "redirect:/books" : saveResult;
     }
@@ -64,12 +64,12 @@ public class BookController {
     public String delete(@PathVariable("id") UUID id, Model model) {
         if (id != null) {
             try {
-                bookHelper.delete(id);
+                bookService.delete(id);
             } catch (DBException | NotFoundException e) {
                 e.printStackTrace();
             }
         }
-        model.addAttribute("books", bookHelper.getAllBooks());
+        model.addAttribute("books", bookService.getAllBooks());
 
         return "redirect:/books";
     }
