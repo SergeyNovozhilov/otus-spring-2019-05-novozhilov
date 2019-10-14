@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import ru.otus.domain.User;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
     private User user;

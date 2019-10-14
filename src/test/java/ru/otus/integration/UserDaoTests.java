@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.otus.daoImpl.UserDaoImpl;
-import ru.otus.domain.Genre;
 import ru.otus.domain.User;
 
 import static org.junit.Assert.assertEquals;

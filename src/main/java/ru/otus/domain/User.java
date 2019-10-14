@@ -3,6 +3,8 @@ package ru.otus.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -18,6 +20,10 @@ public class User extends Base {
 
     @Column(nullable = false)
     private String password;
+
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "authority_id")
+    private Set<Authority> authorities = new HashSet<>();
 
     public User() {
     }
@@ -44,6 +50,14 @@ public class User extends Base {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
     }
 
     @Override
