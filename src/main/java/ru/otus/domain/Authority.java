@@ -4,6 +4,7 @@ import lombok.Data;
 import ru.otus.security.AuthorityType;
 
 import javax.persistence.*;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -17,8 +18,8 @@ public class Authority extends Base {
     @Enumerated(EnumType.STRING)
     private AuthorityType name;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
-    private User user;
+    @ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "authorities")
+    private Set<User> user;
 
     public Authority() {}
 

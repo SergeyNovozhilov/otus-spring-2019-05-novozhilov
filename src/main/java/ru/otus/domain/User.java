@@ -21,8 +21,7 @@ public class User extends Base {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "authority_id")
+    @ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     private Set<Authority> authorities = new HashSet<>();
 
     public User() {
