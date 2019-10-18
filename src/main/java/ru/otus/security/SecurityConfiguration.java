@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -12,14 +13,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.otus.security.userDetails.UserDetailsService;
 
-@Configuration
 @EnableWebSecurity
+@Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Override
+    @Autowired
     protected void configure (AuthenticationManagerBuilder managerBuilder) {
         managerBuilder.authenticationProvider(authenticationProvider());
     }
@@ -27,6 +28,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/");
+    }
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                //.and()
+                .authorizeRequests().antMatchers("/list").authenticated()
+                .and()
+                .authorizeRequests().antMatchers("/create").hasRole("USER")
+                .and()
+                .authorizeRequests().antMatchers("/edit").hasRole("ADMIN")
+                .and()
+                .formLogin()
+                .and()
+                .logout().logoutUrl("/logout");
     }
 
 
@@ -42,5 +59,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder () {
         return new BCryptPasswordEncoder();
     }
-
 }
