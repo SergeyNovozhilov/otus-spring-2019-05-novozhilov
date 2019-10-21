@@ -1,11 +1,13 @@
 package ru.otus.Util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.otus.domain.Book;
+import ru.otus.domain.Comment;
 import ru.otus.dtos.BookDto;
 import ru.otus.exceptions.DBException;
 import ru.otus.exceptions.NotFoundException;
@@ -33,7 +35,16 @@ public class BookService {
             List<String> authors = Arrays.asList(book.getAuthors().split(","));
             bookManager.addAuthors(bookObj, authors);
         } else {
-            bookManager.update(converter.toBook(book));
+            try {
+                if (StringUtils.isNotBlank(book.getComments())) {
+                    List<String> comments = bookManager.get(id).getComments().stream().map(Comment::getComment).collect(Collectors.toList());
+                    comments.add(book.getComments());
+                    book.setComments(String.join(",", comments));
+                }
+                bookManager.update(converter.toBook(book));
+            } catch (NotFoundException e) {
+                System.out.println("Error! Save: book with id = " + id + " not found");
+            }
         }
     }
 

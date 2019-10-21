@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit book</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<form id="edit-form" th:action="@{/books/{id}(id=${book.id})}" th:object="${book}" th:method="put">
+    <h1>Add comment</h1>
+
+    <div class="row">
+        <label>Title</label>
+        <input th:readonly="true" id="holder-input" name="title" type="text" th:value="*{title}" value="Book"/>
+    </div>
+
+    <div class="row">
+        <label>Authors</label>
+        <input th:readonly="true" id="holder-input" name="authors" type="text" th:value="*{authors}" value="Book"/>
+    </div>
+
+    <div class="row">
+        <label>Genre</label>
+        <input th:readonly="true" id="holder-input" name="genre" type="text" th:value="*{genre}" value="Book"/>
+    </div>
+
+    <div class="row">
+        <label>Comments</label>
+        <input th:readonly="true" id="holder-input" name="comments" type="text" th:value="*{comments}" value="Book"/>
+    </div>
+
+    <div class="row">
+        <label for="holder-input">Your comment</label>
+        <input id="holder-input" name="comments" type="text"/>
+    </div>
+
+    <div class="row">
+        <button type="submit">Save</button>
+    </div>
+</form>
+
+</body>
+</html>

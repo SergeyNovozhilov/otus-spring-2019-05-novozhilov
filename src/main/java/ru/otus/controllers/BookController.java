@@ -28,4 +28,15 @@ public class BookController {
 
         return "edit";
     }
+
+    @GetMapping(value = "/comment/{id}")
+    public String addCommentPage(@PathVariable("id") UUID id, Model model) {
+        try {
+            model.addAttribute("book", bookService.getBook(id));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return "comment";
+    }
 }
