@@ -3,25 +3,25 @@
 <head>
     <meta charset="utf-8" />
     <title>Create New Book</title>
+    <script type="text/javascript"
+        src="webjars/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
-    <form  th:action="@{/save/{id}(id=${book.id})}" th:object="${book}"
-          method="post">
+    <div id="feedback"></div>
+    <form id="createform">
         <h1>Create New Book</h1>
         <table border="0" cellpadding="10">
             <tr>
                 <td>Book title:</td>
-                <td><input type="text" th:field="*{title}" /></td>
-                <td th:if="${#fields.hasErrors('title')}" th:errors="*{title}"> Title error</td>
+                <td><input type="text" id="title" value=""/></td>
             </tr>
             <tr>
                 <td>Authors (comma separated):</td>
-                <td><input type="text" th:field="*{authors}" /></td>
-                <td th:if="${#fields.hasErrors('authors')}" th:errors="*{authors}"> Authors error</td>
+                <td><input type="text" id="authors" value=""/></td>
             </tr>
             <tr>
                 <td>Genre:</td>
-                <td><input type="text" th:field="*{genre}" />
+                <td><input type="text" id="genre" value="" />
                 </td>
             </tr>
             <tr>
@@ -29,5 +29,6 @@
             </tr>
         </table>
     </form>
+    <script type="text/javascript" src="js/create.js"></script>
 </body>
 </html>

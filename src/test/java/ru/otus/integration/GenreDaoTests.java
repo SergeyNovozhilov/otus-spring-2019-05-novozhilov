@@ -39,7 +39,13 @@ public class GenreDaoTests {
         expected.forEach(e -> testEntityManager.persist(e));
         testEntityManager.flush();
         Collection<Genre> actual = GenreDaoImpl.getAll();
-        assertEquals(actual, expected);
+        expected.forEach( e -> {
+            Genre g = actual.stream().filter(x -> x.getId().equals(e.getId())).findFirst().orElse(null);
+            if (g == null) {
+                fail();
+            }
+            assertEquals(e.getName(), g.getName());
+        });
     }
 
     @Test

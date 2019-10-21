@@ -41,7 +41,7 @@ public class AuthorDaoTests {
 		expected.forEach(e -> testEntityManager.persist(e));
 		testEntityManager.flush();
 		List<Author> actual = new ArrayList(AuthorDaoImpl.getAll());
-		assertTrue(expected.size() == actual.size());
+		assertTrue(expected.size() + 1 == actual.size()); // + 1 book from data.sql
 		expected.forEach( e -> {
 			Author a = actual.stream().filter(x -> x.getId().equals(e.getId())).findFirst().orElse(null);
 			if (a == null) {

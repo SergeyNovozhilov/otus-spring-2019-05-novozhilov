@@ -7,50 +7,33 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.otus.Util.BookHelper;
-import ru.otus.Util.Converter;
-import ru.otus.managers.BookManager;
+import ru.otus.Util.BookService;
+import ru.otus.dtos.BookDto;
 
-import java.util.Collections;
+import java.util.UUID;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest
 public class BookControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
-    private BookManager bookManager;
-    @MockBean
-    private Converter converter;
-    @MockBean
-    private BookHelper saver;
+    private BookService bookService;
 
     @Test
-    public void shouldReturnDefaultMessage() throws Exception {
-        this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Welcome to online library")));
+    public void shouldReturnEditPage() throws Exception {
+        String  strId = "5fc03087-d265-11e7-b8c6-83e29cd24f4c";
+        UUID id = UUID.fromString(strId);
+        BookDto book = new BookDto();
+        when(bookService.getBook(id)).thenReturn(book);
+        this.mockMvc.perform(get("/books/" + strId)).andDo(print()).andExpect(status().isOk())
+                .andExpect(view().name("edit"));
     }
-
-    @Test
-    public void shouldReturnBooksPage() throws Exception {
-        when(bookManager.get(null, null, null)).thenReturn(Collections.EMPTY_LIST);
-        this.mockMvc.perform(get("/books")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Books")));
-    }
-
-    @Test
-    public void shouldReturnCreatePage() throws Exception {
-        when(bookManager.get(null, null, null)).thenReturn(Collections.EMPTY_LIST);
-        this.mockMvc.perform(get("/books")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Create new book")));
-    }
-
 }
