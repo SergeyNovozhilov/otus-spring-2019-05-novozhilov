@@ -3,6 +3,7 @@ package ru.otus.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,11 +36,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 //.and()
-                .authorizeRequests().antMatchers("/list").authenticated()
-                .and()
-                .authorizeRequests().antMatchers("/create").hasRole("USER")
-                .and()
-                .authorizeRequests().antMatchers("/edit").hasRole("ADMIN")
+//                .authorizeRequests()
+//                .antMatchers(HttpMethod.GET, "/books").hasRole("USER")
+//                .antMatchers(HttpMethod.POST, "/books").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.PUT, "/books/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.DELETE, "/books/**").hasRole("ADMIN")
+                .authorizeRequests().antMatchers("/list").hasRole("ADMIN")
                 .and()
                 .formLogin()
                 .and()
