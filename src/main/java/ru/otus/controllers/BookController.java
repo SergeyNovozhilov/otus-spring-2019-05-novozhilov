@@ -1,6 +1,9 @@
 package ru.otus.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +13,8 @@ import ru.otus.dtos.BookDto;
 import ru.otus.exceptions.DBException;
 import ru.otus.exceptions.NotFoundException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,7 +33,7 @@ public class BookController {
         return "index";
     }
 
-    @GetMapping(value = "/books")
+    @GetMapping(value = "/list")
     public String listPage(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
 
@@ -57,7 +62,7 @@ public class BookController {
     public String save(@PathVariable Optional<UUID>  id, @Valid @ModelAttribute("book") BookDto book, BindingResult bindingResult) {
         String saveResult = bookService.save(id, book, bindingResult);
 
-        return saveResult == null ? "redirect:/books" : saveResult;
+        return saveResult == null ? "redirect:/list" : saveResult;
     }
 
     @PostMapping(value = "/delete/{id}")
@@ -71,6 +76,26 @@ public class BookController {
         }
         model.addAttribute("books", bookService.getAllBooks());
 
-        return "redirect:/books";
+        return "redirect:/list";
+    }
+
+    @PostMapping(value = "/comment")
+    public String addCommentPage(@RequestParam("id") UUID id, Model model) {
+        try {
+            model.addAttribute("book", bookService.getBook(id));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return "comment";
+    }
+
+    @GetMapping(value="/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/home?logout=true";
     }
 }

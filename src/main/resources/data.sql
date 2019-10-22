@@ -1,4 +1,5 @@
 insert into AUTHORS values (random_uuid(), 'Author');
+insert into GENRES values (random_uuid(), 'Genre');
 insert into BOOKS values (random_uuid(), 'Book', (select id from GENRES), DEFAULT);
 insert into BOOKS_AUTHORS values ((select id from BOOKS), (select id from AUTHORS));
 

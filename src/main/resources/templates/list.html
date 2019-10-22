@@ -34,6 +34,11 @@
         <td th:text="${book.genre}">Genre</td>
         <td th:text="${book.comments}">No comments</td>
         <td>
+            <form th:action="@{/comment(id=${book.id})}" th:method="post">
+                <button type="submit" th:name="submit">Add comment</button>
+            </form>
+        </td>
+        <td>
             <form th:action="@{/edit(id=${book.id})}" th:method="post">
                 <button type="submit" th:name="submit">Edit</button>
             </form>
@@ -46,5 +51,6 @@
     </tr>
     </tbody>
 </table>
+<a th:href="@{/logout}">Logout</a>
 </body>
 </html>

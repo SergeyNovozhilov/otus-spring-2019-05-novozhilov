@@ -33,17 +33,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                //.and()
-                .authorizeRequests().antMatchers("/list").authenticated()
+                .authorizeRequests().antMatchers("/list").hasRole("USER")
                 .and()
-                .authorizeRequests().antMatchers("/create").hasRole("USER")
+                .authorizeRequests().antMatchers("/create").hasRole("ADMIN")
                 .and()
                 .authorizeRequests().antMatchers("/edit").hasRole("ADMIN")
                 .and()
+                .authorizeRequests().antMatchers("/delete/*").hasRole("ADMIN")
+                .and()
+                .authorizeRequests().antMatchers("/comment").hasRole("USER")
+                .and()
                 .formLogin()
                 .and()
-                .logout().logoutUrl("/logout");
+                .logout()
+                .logoutSuccessUrl("/");
     }
 
 
