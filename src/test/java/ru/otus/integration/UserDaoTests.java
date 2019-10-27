@@ -7,10 +7,18 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.otus.daoImpl.UserDaoImpl;
+import ru.otus.domain.Authority;
 import ru.otus.domain.User;
+import ru.otus.security.AuthorityType;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -27,22 +35,15 @@ public class UserDaoTests {
 
     @Test
     public void getByUserName() {
+        Set<Authority> authorities = new HashSet<>();
+        authorities.add(new Authority(AuthorityType.ROLE_USER));
         User expected = new User();
         expected.setUsername("user");
-        expected.setPassword("password");
-        testEntityManager.persistAndFlush(expected);
-        User actual = underTest.findByUsername(expected.getUsername());
-        assertEquals(actual, expected);
-    }
+        expected.setAuthorities(authorities);
 
-    @Test
-    public void addUser() {
-        User expected = new User();
-        expected.setUsername("user");
-        expected.setPassword("password");
-        testEntityManager.persistAndFlush(expected);
-        underTest.addUser(expected);
-        User actual = testEntityManager.find(User.class, expected.getId());
-        assertEquals(actual, expected);
+        User actual = underTest.findByUsername(expected.getUsername());
+        assertEquals(actual.getUsername(), expected.getUsername());
+        assertEquals(actual.getAuthorities().size(), 1);
+        assertEquals(actual.getAuthorities().iterator().next().getName(), AuthorityType.ROLE_USER);
     }
 }

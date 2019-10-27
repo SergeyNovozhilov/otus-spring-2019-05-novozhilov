@@ -39,6 +39,7 @@ public class GenreDaoTests {
         expected.forEach(e -> testEntityManager.persist(e));
         testEntityManager.flush();
         Collection<Genre> actual = GenreDaoImpl.getAll();
+        actual.removeIf((g) -> StringUtils.equalsIgnoreCase(g.getName(), "Genre"));//remove Genre from data.sql
         assertEquals(actual, expected);
     }
 

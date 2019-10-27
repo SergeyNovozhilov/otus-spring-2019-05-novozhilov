@@ -11,6 +11,7 @@ import ru.otus.security.AuthorityType;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -25,20 +26,9 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException(username);
-        }
-        return new UserPrincipal(user);
-    }
+        Optional<User> userOptional = Optional.of(userDao.findByUsername(username));
+        User user = userOptional.orElseThrow(() -> new UsernameNotFoundException(username));
 
-    public void addUser(String username, String password) {
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        Set<Authority> authorities = new HashSet<>();
-        authorities.add(new Authority(AuthorityType.ROLE_USER));
-        user.setAuthorities(authorities);
-        userDao.addUser(user);
+        return new UserPrincipal(user);
     }
 }
