@@ -29,24 +29,10 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 
-    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
-    // https://mvnrepository.com/artifact/org.powermock/powermock-core
-    testCompile group: 'org.powermock', name: 'powermock-core', version: '1.7.4'
-// https://mvnrepository.com/artifact/org.powermock/powermock-api-mockito
-    testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version: '1.7.4'
-// https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4-common
-    compile group: 'org.powermock', name: 'powermock-module-junit4-common', version: '1.7.4'
-    // https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4
-    testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '1.7.4'
-    // https://mvnrepository.com/artifact/org.assertj/assertj-core
-    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
+    testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
 
-    testCompile("org.junit.jupiter:junit-jupiter-params:5.4.2")
-    testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.5.2")
     testRuntime("org.junit.platform:junit-platform-runner:1.5.2")
-
-
 
 
     // https://mvnrepository.com/artifact/org.apache.commons/commons-io
