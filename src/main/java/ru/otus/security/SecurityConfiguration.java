@@ -16,6 +16,7 @@ package ru.otus.security;
 //@EnableWebSecurity
 //@Configuration
 public class SecurityConfiguration /*extends WebSecurityConfigurerAdapter*/ {
+    private  String oskdjlkjsdl;
 //
 //    @Autowired
 //    private UserDetailsService userDetailsService;
